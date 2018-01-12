@@ -1,5 +1,6 @@
 """Classes for melon orders."""
-
+from random import randint
+import datetime
 
 class AbstractMelonOrder(object):
     """Parent class for subclasses to inherit shared attributes and methods"""
@@ -11,10 +12,19 @@ class AbstractMelonOrder(object):
         if country_code:
             self.country_code = country_code
 
+    def get_base_price(self):
+        base_price = randint(5, 9)
+        order_time = datetime.datetime.now()
+        if datetime.date.weekday(order_time) in range (0, 5) and order_time.hour in range(8, 12):
+            base_price += 4
+
+        return base_price
+
     def get_total(self):
         """Calculate price, including tax."""
 
-        base_price = 5
+        base_price = self.get_base_price()
+
         if self.species == "Christmas melons":
             base_price = base_price * 1.5
 
